@@ -35,7 +35,7 @@ router.get("/department/:id", (req, res) => {
 });
 
 // add a department to
-router.post("/department", ({ body, res }) => {
+router.post("/department", ({ body }, res) => {
   const errors = inputCheck(body, "name");
   if (errors) {
     res.status(400).json({ error: errors });
