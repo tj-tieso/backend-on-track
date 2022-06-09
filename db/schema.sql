@@ -1,5 +1,8 @@
 -- drop tables statements
+-- roles must be dropped before departments due to the foreign key constraint that requires the departments table to exist
+DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS departments;
+
 
 -- DEPT table
 CREATE TABLE departments (
@@ -8,10 +11,12 @@ CREATE TABLE departments (
 );
 
 -- ROLE table
--- id: INT PRIMARY KEY
--- title: VARCHAR(30) to hold role title
--- salary: DECIMAL to hold role salary
--- department_id: INT to hold reference to department role belongs to
+CREATE TABLE roles (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(30) NOT NULL,
+    salary DECIMAL(10,2) NOT NULL,
+    CONSTRAINT fk_dept FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE SET NULL
+);
 
 -- EMPLOYEE table
 -- id: INT PRIMARY KEY
