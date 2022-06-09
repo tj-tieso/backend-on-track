@@ -1,8 +1,8 @@
 -- drop tables statements
-DROP TABLE IF EXISTS department;
+DROP TABLE IF EXISTS departments;
 
 -- DEPT table
-CREATE TABLE department (
+CREATE TABLE departments (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(30) NOT NULL
 );
