@@ -3,9 +3,9 @@ const router = express.Router();
 const db = require("../../db/conn");
 const inputCheck = require("../../utils/inputCheck.js");
 
-// get all deptpartments
-router.get("/departments", (req, res) => {
-  const sql = `SELECT * FROM departments`;
+// get all employees
+router.get("/employees", (req, res) => {
+  const sql = `SELECT * FROM employees`;
   db.query(sql, (err, rows) => {
     if (err) {
       res.status(500).json({ error: err.message });
@@ -18,9 +18,9 @@ router.get("/departments", (req, res) => {
   });
 });
 
-// get department by id
-router.get("/department/:id", (req, res) => {
-  const sql = `SELECT * FROM departments WHERE id = ?`;
+// get employee by id
+router.get("/employee/:id", (req, res) => {
+  const sql = `SELECT * FROM employees WHERE id = ?`;
   const params = [req.params.id];
   db.query(sql, params, (err, row) => {
     if (err) {
@@ -34,17 +34,32 @@ router.get("/department/:id", (req, res) => {
   });
 });
 
-// add a department to
-router.post("/department", ({ body }, res) => {
-  const errors = inputCheck(body, "name");
+// add an employee to
+router.post("/employee", ({ body }, res) => {
+  const errors = inputCheck(
+    body,
+    "first_name",
+    "last_name",
+    "title_id",
+    "salary_id",
+    "department_id",
+    "manager_id"
+  );
   if (errors) {
     res.status(400).json({ error: errors });
     return;
   }
 
-  const sql = `INSERT INTO departments (name)
-              VALUES (?)`;
-  const params = [body.name];
+  const sql = `INSERT INTO employees (first_name, last_name, title_id, salary_id, department_id, manager_id)
+              VALUES (?, ?, ?, ?, ?, ?)`;
+  const params = [
+    body.first_name,
+    body.last_name,
+    body.title_id,
+    body.salary_id,
+    body.department_id,
+    body.manager_id,
+  ];
 
   db.query(sql, params, (err, result) => {
     if (err) {
@@ -55,16 +70,16 @@ router.post("/department", ({ body }, res) => {
   });
 });
 
-// delete a department
-router.delete("/department/:id", (req, res) => {
-  const sql = `DELETE FROM departments WHERE id = ?`;
+//delete employee
+router.delete("/employee/:id", (req, res) => {
+  const sql = `DELETE FROM employees WHERE id = ?`;
 
   db.query(sql, req.params.id, (err, result) => {
     if (err) {
       res.status(400).json({ error: res.message });
     } else if (!result.affectedRows) {
       res.json({
-        message: "department not found",
+        message: "employee not found",
       });
     } else {
       res.json({
