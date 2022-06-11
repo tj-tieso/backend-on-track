@@ -26,9 +26,8 @@ CREATE TABLE employees (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
-    title_id VARCHAR(30),
-    salary_id DECIMAL(9,0) NOT NULL,
-    department_id VARCHAR(30),
+    department_id INTEGER,
+    title_id INTEGER,
     manager_id VARCHAR(30)
 );
 

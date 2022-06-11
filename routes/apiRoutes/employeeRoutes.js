@@ -3,9 +3,11 @@ const router = express.Router();
 const db = require("../../db/conn");
 const inputCheck = require("../../utils/inputCheck.js");
 
-// get all employees
+// get all employees with role/salary/dept
 router.get("/employees", (req, res) => {
-  const sql = `SELECT * FROM employees`;
+  const sql = `SELECT employees.*, departments.name AS dept_name, 
+  FROM employees
+          LEFT JOIN departments on employees.department_id = departments.id;`;
   db.query(sql, (err, rows) => {
     if (err) {
       res.status(500).json({ error: err.message });
