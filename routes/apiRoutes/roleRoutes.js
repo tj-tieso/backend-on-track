@@ -3,9 +3,12 @@ const router = express.Router();
 const db = require("../../db/conn");
 const inputCheck = require("../../utils/inputCheck.js");
 
-// get all roles
+// get roles with department name
 router.get("/roles", (req, res) => {
-  const sql = `SELECT * FROM roles`;
+  const sql = `SELECT roles.*, departments.name 
+  AS dept_name
+  FROM roles
+  LEFT JOIN departments on roles.department_id = departments.id;`;
   db.query(sql, (err, rows) => {
     if (err) {
       res.status(500).json({ error: err.message });
@@ -20,7 +23,11 @@ router.get("/roles", (req, res) => {
 
 // get single role
 router.get("/role/:id", (req, res) => {
-  const sql = `SELECT * FROM roles WHERE id = ?`;
+  const sql = `SELECT roles.*, departments.name 
+                AS dept_name
+                FROM roles
+                LEFT JOIN departments on roles.department_id = departments.id            
+                WHERE roles.id = ?`;
   const params = [req.params.id];
   db.query(sql, params, (err, row) => {
     if (err) {
