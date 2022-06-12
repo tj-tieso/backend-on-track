@@ -14,7 +14,7 @@ Week 12 SQL Challenge
 
 ## Website
 
-Video walkthrough of application:
+Video walkthrough of application [here.](https://drive.google.com/file/d/1V16fbvdWf-a4XlcDiWd8hyi-i6RbHfd_/view)
 
 GitHub Repo:
 

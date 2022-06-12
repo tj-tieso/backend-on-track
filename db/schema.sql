@@ -30,11 +30,3 @@ CREATE TABLE employees (
     title_id INTEGER,
     manager_id VARCHAR(30)
 );
-
---     CONSTRAINT fk_dept FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE SET NULL,
---     CONSTRAINT fk_title FOREIGN KEY (title_id) REFERENCES roles(title) ON DELETE SET NULL,
---     CONSTRAINT fk_salary FOREIGN KEY (salary_id) REFERENCES roles(salary) ON DELETE SET NULL,
-
-
--- You might want to use a separate file that contains functions for performing specific SQL queries you'll need to use. 
--- A constructor function or class could be helpful for organizing these. 

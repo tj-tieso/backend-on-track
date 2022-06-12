@@ -5,9 +5,13 @@ const inputCheck = require("../../utils/inputCheck.js");
 
 // get all employees with role/salary/dept
 router.get("/employees", (req, res) => {
-  const sql = `SELECT employees.*, departments.name AS dept_name, 
-  FROM employees
-          LEFT JOIN departments on employees.department_id = departments.id;`;
+  const sql = `SELECT employees.*, 
+                departments.name AS dept_name,
+                roles.title AS title,
+                roles.salary AS salary
+                FROM employees
+                LEFT JOIN departments on employees.department_id = departments.id
+                LEFT JOIN roles on employees.title_id = roles.id`;
   db.query(sql, (err, rows) => {
     if (err) {
       res.status(500).json({ error: err.message });
@@ -22,7 +26,14 @@ router.get("/employees", (req, res) => {
 
 // get employee by id
 router.get("/employee/:id", (req, res) => {
-  const sql = `SELECT * FROM employees WHERE id = ?`;
+  const sql = `SELECT employees.*, 
+                departments.name AS dept_name,
+                roles.title AS title,
+                roles.salary AS salary
+                FROM employees
+                LEFT JOIN departments on employees.department_id = departments.id
+                LEFT JOIN roles on employees.title_id = roles.id
+                WHERE employees.id = ?`;
   const params = [req.params.id];
   db.query(sql, params, (err, row) => {
     if (err) {
@@ -42,9 +53,8 @@ router.post("/employee", ({ body }, res) => {
     body,
     "first_name",
     "last_name",
-    "title_id",
-    "salary_id",
     "department_id",
+    "title_id",
     "manager_id"
   );
   if (errors) {
@@ -52,14 +62,13 @@ router.post("/employee", ({ body }, res) => {
     return;
   }
 
-  const sql = `INSERT INTO employees (first_name, last_name, title_id, salary_id, department_id, manager_id)
-              VALUES (?, ?, ?, ?, ?, ?)`;
+  const sql = `INSERT INTO employees (first_name, last_name, department_id, title_id, manager_id)
+              VALUES (?, ?, ?, ?, ?)`;
   const params = [
     body.first_name,
     body.last_name,
-    body.title_id,
-    body.salary_id,
     body.department_id,
+    body.title_id,
     body.manager_id,
   ];
 

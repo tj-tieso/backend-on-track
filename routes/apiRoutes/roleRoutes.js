@@ -5,10 +5,10 @@ const inputCheck = require("../../utils/inputCheck.js");
 
 // get roles with department name
 router.get("/roles", (req, res) => {
-  const sql = `SELECT roles.*, departments.name 
-  AS dept_name
-  FROM roles
-  LEFT JOIN departments on roles.department_id = departments.id;`;
+  const sql = `SELECT roles.*, 
+                departments.name AS dept_name
+                FROM roles
+                LEFT JOIN departments on roles.department_id = departments.id;`;
   db.query(sql, (err, rows) => {
     if (err) {
       res.status(500).json({ error: err.message });
